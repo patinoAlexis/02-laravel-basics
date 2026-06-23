@@ -24,3 +24,11 @@ Route::view('/pass-data', 'pass-data', ['greeting' => 'Hello', 'person' => reque
 //    return view('pass-data',  ['greeting' => 'Hello', 'person' => request('person')]);
 //});
 
+
+Route::view('/directives', 'directives', [
+    'tasks' => [
+        'Go to the market',
+        'Finish the homework',
+        'Clean the house'
+    ]
+]);
