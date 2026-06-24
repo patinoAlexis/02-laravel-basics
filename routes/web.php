@@ -8,9 +8,9 @@ Route::get('/', function () {
 Route::get('/about', function () {
     return view('about');
 });
-//Route::get('/contact', function () {
+// Route::get('/contact', function () {
 //    return view('contact');
-//});
+// });
 
 Route::view('/contact', 'contact');
 
@@ -20,15 +20,40 @@ Route::view('/contact', 'contact');
 Route::view('/pass-data', 'pass-data', ['greeting' => 'Hello', 'person' => request('person', 'World')]);
 
 // for the function above, this will be the equivalent if we used the get method directly:
-//Route::get('/pass-data', function () {
+// Route::get('/pass-data', function () {
 //    return view('pass-data',  ['greeting' => 'Hello', 'person' => request('person')]);
-//});
-
+// });
 
 Route::view('/directives', 'directives', [
     'tasks' => [
         'Go to the market',
         'Finish the homework',
-        'Clean the house'
-    ]
+        'Clean the house',
+    ],
 ]);
+//Route::view('/ideas','ideas');
+Route::get('/ideas', function () {
+    $ideas = session()->get('ideas', []);
+    return view('ideas', ['ideas' => $ideas]);
+});
+Route::post('/ideas', function (Request $request) {
+    // There are several ways of getting the information of the request. for the moment
+    // we have displayed three diferent methods. I belive just looking at the code the most simple one
+    // is using the function request.
+//    $idea = \Illuminate\Support\Facades\Request::input('idea');
+    $idea = request('idea');
+    // The option of using the parameter request it also looks good, it would be ideal, when we learn
+    // how can we "define" the actual data that the request SHOULD have.
+//    $idea = $request->idea;
+
+    session()->push('ideas', $idea);
+
+    return redirect('/ideas');
+
+});
+
+Route::delete('/ideas', function () {
+    session()->forget('ideas');
+    return redirect('/ideas');
+});
+
